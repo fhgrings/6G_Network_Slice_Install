@@ -250,17 +250,22 @@ Compress the entire folder
 
 Upload the ZIP file to http://localhost:5000/nsst using the **Add Subnet Slice Template** button:
 
-![Screenshot 2023-10-03 at 00.42.58](./imgs/nsst.png)
+![NSST](./images/nsst.png)
 
 To run the UE copy the file from 
 https://github.com/fhgrings/NASP/tree/main/helm_charts/rantester
 
 Compress and import on NSST tab.
 
+![](./images/create_nsst.png)
 
 To Deploy it Create an NST using Free5GC as Core and RAN_Tester as RAN and UE.
 After create, press Deploy NST.
 
+![](./images/create_nsi.png)
+
+After a few seconds the slice will appear as an instance on Instances Tab
+![](./images/nsi.png)
 
 ### Test Slice and UE
 
@@ -283,4 +288,6 @@ ping -I uetun1 www.google.com
 ````
 ![](./images/ping.png)
 
+
+## Deploy Multiple Slices
 
