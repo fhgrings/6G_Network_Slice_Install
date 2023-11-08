@@ -314,6 +314,7 @@ https://askubuntu.com/questions/1348250/skipping-btf-generation-xxx-due-to-unava
 ````
 
 You should be using Ubuntu 20.04+. Debian distros do not work properly with Free5gc GTP5G
+
 ---
 
 ## Kubernetes
