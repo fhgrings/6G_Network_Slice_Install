@@ -289,5 +289,73 @@ ping -I uetun1 www.google.com
 ![](./images/ping.png)
 
 
+The Dashboard Tabs should start to show the metrics data related to the instance
+
+![](./images/grafana.png)
+![](./images/logs.png)
+
+
 ## Deploy Multiple Slices
 
+
+
+## Troubleshootinng
+
+
+## GTP5G
+```
+Skipping BTF generation for /root/gtp5g/gtp5g.ko due to unavailability of vmlinux
+```
+https://askubuntu.com/questions/1348250/skipping-btf-generation-xxx-due-to-unavailability-of-vmlinux-on-ubuntu-21-04
+
+---
+````
+/tools/bpf/resolve_btfids/resolve_btfids: not found
+````
+
+You should be using Ubuntu 20.04+. Debian distros do not work properly with Free5gc GTP5G
+---
+
+## Kubernetes
+
+AMF Logs 
+````
+Protocol Not Supported
+````
+
+Double Check SMTP properties in your CNI configs
+
+---
+````
+XMFR Operation not permitted
+````
+N3IWF Container is not runnning with Privileged permissions.
+Double check security Properties in Pod definition
+Double check Container Runtime Permissions 
+
+### 5GC
+
+#### Network Functions Conflict 
+
+The 5GC network functions are initialized through a `` ./run.sh ``. If, eventually, the connection with the terminal that initialized the .sh is closed improperly, the functions will continue running as loose processes on the execution stack. When trying to initialize the 5GC again, errors related to connection ports that are already in use will be triggered.
+To solve the problem, just run `` ./force_kill.sh ``, is located in the same directory as the ``run.sh`` script. When executing  `` ./force_kill.sh `` all active processes related to the execution of the 5GC functions will be terminated and a new execution can be performed.
+
+#### Conflict in the execution of 5GC API server
+
+For a UE to be able to use the 5GC functionalities, it must be duly registered in the database. This record is performed through a [Rest API](https://github.com/LABORA-INF-UFG/Proto6G-Install#initializing-the-5gc-api-server) provided by the 5GC.
+If eventually the terminal used to initialize the API is closed improperly, port 5000 will remain in use, preventing a new execution. In this case, the process must be terminated using kill -9 as described below:
+
+* Find the PID of the process that is using port 50000: ``sudo netstat -nlp | grep :5000``
+* Kill the process through the PID:: ``kill -9 <<PID-Nº>>``
+
+#### Data inconsistency in 5GC MongoDB
+
+In experimental scenarios, where the UE-non3GPP + 5GC connection procedures are repeated several times, it may happen that MongoDB persists inconsistent information. In these cases, it is interesting to delete the database and register the UEs again. To resolve the issue, perform the following steps:
+
+* Terminate the execution of UE-non3GPP, N3IWF and 5GC.
+* Access through a new terminal on the machine where 5GC was installed.
+* Type in terminal `` mongo ``  to connect MongoDB CLI.
+* In MongoDB CLI type `` use free5gc `` to connect to free5gc base.
+* Type `` db.dropDatabase() `` to completely delete the 5gc database.
+
+After deleting the database, [initialize 5GC](https://github.com/LABORA-INF-UFG/Proto6G-Install#initializing-the-5gc-functions), [initialize API Server](https://github.com/LABORA-INF-UFG/Proto6G-Install#initializing-the-5gc-api-server), [initialize N3IWF](https://github.com/LABORA-INF-UFG/Proto6G-Install#start-n3iwf), [register UE-non3GPP](https://github.com/LABORA-INF-UFG/Proto6G-Install#register-ue-non3gpp-into-5gc) and [test Proto6G components](https://github.com/LABORA-INF-UFG/Proto6G-Install#testing-proto6g-components).
