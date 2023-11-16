@@ -108,6 +108,17 @@ The Excepted output should be like this:
 ![Ansible Output](./images/ansible-play-recap.png)
 
 
+Install Kubectl
+```bash
+curl -fsSL https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-archive-keyring.gpg
+
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt update
+
+sudo apt install kubectl
+```
+
 Connect to any machine and execute
 ```bash
 kubectl get nodes
