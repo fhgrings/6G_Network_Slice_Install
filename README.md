@@ -24,7 +24,7 @@ Get acces to any Ubuntu 22.04, with specified resources, and prepare the envirom
 
 Install dwarves make and gcc
 ```bash
-sudo apt install -y dwarves make gcc
+sudo apt install -y dwarves make gcc curl
 ```
 
 Copy modules to BPF linux kernel
