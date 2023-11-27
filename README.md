@@ -306,11 +306,7 @@ The Dashboard Tabs should start to show the metrics data related to the instance
 ![](./images/logs.png)
 
 
-## Deploy Multiple Slices
-
-
-
-## Troubleshootinng
+# Troubleshootinng
 
 
 ## GTP5G
