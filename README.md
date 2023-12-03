@@ -145,13 +145,30 @@ Install HELM
 curl -fsSL https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 ````
 
+Create Monitoring Namespace
+```bash
+kubectl create namespace monitoring
+```
+
 
 Install Observability Helm Charts:
+Install Prometheus
+```
+helm install prometheus prometheus-community/kube-prometheus-stack -n monitoring
+```
 
+Install Grafana
 ```
 helm repo add grafana https://grafana.github.io/helm-charts
 helm create ns grafana
-helm install grafana -n grafana
+helm install grafana -n monitoring
+kubectl expose service grafana --port=3000 --type=NodePort --target-port=3000 --name=grafana-exposed
+```
+Configure Prometheus Data Sorce
+
+Add Network Dashboard to Grafana
+```
+https://grafana.com/grafana/dashboards/12125-kubernetes-networking-namespace-pods/
 ```
 
 Install Loki:
@@ -159,7 +176,7 @@ Install Loki:
 ```
 helm repo add loki https://grafana.github.io/helm-charts
 helm create ns loki
-helm install loki -n grafana
+helm install loki -n monitoring
 ```
 
 Install Linkerd:
